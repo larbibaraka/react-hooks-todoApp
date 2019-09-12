@@ -1,4 +1,4 @@
-import React, { useReducer } from "react";
+import React, { useReducer, useContext } from "react";
 import "./App.css";
 
 function appReducer(state, action) {
@@ -13,30 +13,34 @@ function appReducer(state, action) {
         }
       ];
     }
+    case "delete": {
+      return [...state];
+    }
     default:
       return state;
   }
 }
 
+const Context = React.createContext();
+
 export default function TodosApp() {
   const [state, dispatch] = useReducer(appReducer, []);
 
-  const handleClick = () => {
+  const handleAdd = () => {
     dispatch({
       type: "add"
     });
   };
   return (
-    <div className="App">
+    <Context.Provider value={dispatch} className="App">
       <h1>React hooks</h1>
-      <button className="addbutton" onClick={handleClick}>
+      <button className="addbutton" onClick={handleAdd}>
         New Todo
       </button>
       <br />
       <br />
-      <br />
       <TodoList items={state} />
-    </div>
+    </Context.Provider>
   );
 }
 
@@ -45,6 +49,7 @@ function TodoList({ items }) {
 }
 
 function TodoItem({ id, text, isCompleted }) {
+  const dispatch = useContext();
   return (
     <div
       style={{
@@ -56,7 +61,17 @@ function TodoItem({ id, text, isCompleted }) {
     >
       <input type="checkbox" checked={isCompleted} />
       <input type="text" defaultValue={text} />
-      <button className="deletebutton">delete</button>
+      <button
+        className="deletebutton"
+        onClick={() =>
+          dispatch({
+            type: "delete",
+            payload: id
+          })
+        }
+      >
+        delete
+      </button>
     </div>
   );
 }
