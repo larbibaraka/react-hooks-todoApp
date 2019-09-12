@@ -1,26 +1,62 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useReducer } from "react";
+import "./App.css";
 
-function App() {
+function appReducer(state, action) {
+  switch (action.type) {
+    case "add": {
+      return [
+        ...state,
+        {
+          id: Date.now(),
+          text: "",
+          isCompleted: false
+        }
+      ];
+    }
+    default:
+      return state;
+  }
+}
+
+export default function TodosApp() {
+  const [state, dispatch] = useReducer(appReducer, []);
+
+  const handleClick = () => {
+    dispatch({
+      type: "add"
+    });
+  };
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>React hooks</h1>
+      <button className="addbutton" onClick={handleClick}>
+        New Todo
+      </button>
+      <br />
+      <br />
+      <br />
+      <TodoList items={state} />
     </div>
   );
 }
 
-export default App;
+function TodoList({ items }) {
+  return items.map(item => <TodoItem key={item.id} {...item} />);
+}
+
+function TodoItem({ id, text, isCompleted }) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center",
+        margin: "1%"
+      }}
+    >
+      <input type="checkbox" checked={isCompleted} />
+      <input type="text" defaultValue={text} />
+      <button className="deletebutton">delete</button>
+    </div>
+  );
+}

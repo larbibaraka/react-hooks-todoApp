@@ -31,3 +31,33 @@
     transform: rotate(360deg);
   }
 }
+.addbutton {
+  background-image: radial-gradient(
+    circle farthest-corner at 10% 20%,
+    rgba(67, 144, 233, 1) 0%,
+    rgba(78, 226, 198, 1) 90.1%
+  );
+  height: 50px;
+  width: 100px;
+  border: 0;
+  color: white;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 9px;
+}
+
+.deletebutton {
+  background-image: linear-gradient(
+    69.3deg,
+    rgba(240, 8, 8, 1) 6.6%,
+    rgba(255, 146, 8, 1) 100.2%
+  );
+  height: 39px;
+  width: 82px;
+  border: 0;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 700;
+  border-radius: 9px;
+  margin-left: 1%;
+}
