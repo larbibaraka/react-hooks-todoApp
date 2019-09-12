@@ -4,6 +4,7 @@ import "./App.css";
 function appReducer(state, action) {
   switch (action.type) {
     case "reset": {
+      console.log("action.payload : ", action.payload);
       return action.payload;
     }
     case "add": {
@@ -11,7 +12,7 @@ function appReducer(state, action) {
         ...state,
         {
           id: Date.now(),
-          text: "",
+          text: "baraka xD",
           isCompleted: false
         }
       ];
@@ -51,6 +52,7 @@ export default function TodosApp() {
   useEffect(() => {
     localStorage.setItem("data", JSON.stringify(state));
   }, [state]);
+
   const handleAdd = () => {
     dispatch({
       type: "add"
@@ -70,13 +72,14 @@ export default function TodosApp() {
 }
 
 function TodoList({ items }) {
-  return items.map(item => <TodoItem key={item.id} {...item} />);
+  return items.map(item => <TodoItem {...item} />);
 }
 
 function TodoItem({ id, text, isCompleted }) {
   const dispatch = useContext(Context);
   return (
     <div
+      key={id}
       style={{
         display: "flex",
         flexDirection: "row",
