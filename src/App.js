@@ -14,7 +14,18 @@ function appReducer(state, action) {
       ];
     }
     case "delete": {
-      return [...state];
+      return state.filter(item => item.id !== action.payload);
+    }
+    case "completeTask": {
+      return state.map(item => {
+        if (item.id === action.payload) {
+          return {
+            ...state,
+            isCompleted: !item.isCompleted
+          };
+        }
+        return item;
+      });
     }
     default:
       return state;
@@ -49,7 +60,7 @@ function TodoList({ items }) {
 }
 
 function TodoItem({ id, text, isCompleted }) {
-  const dispatch = useContext();
+  const dispatch = useContext(Context);
   return (
     <div
       style={{
@@ -59,7 +70,16 @@ function TodoItem({ id, text, isCompleted }) {
         margin: "1%"
       }}
     >
-      <input type="checkbox" checked={isCompleted} />
+      <input
+        type="checkbox"
+        checked={isCompleted}
+        onChange={() =>
+          dispatch({
+            type: "completeTask",
+            payload: id
+          })
+        }
+      />
       <input type="text" defaultValue={text} />
       <button
         className="deletebutton"
